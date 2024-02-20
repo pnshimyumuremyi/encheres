@@ -1,0 +1,21 @@
+# Dependencies
+/node_modules
+
+# Testing
+/coverage
+/.nyc_output
+*.log
+*.seed
+*.pid
+*.log.*
+*.seed.*
+*.pid.*
+
+# IDEs and editors
+/.idea
+/.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw*
