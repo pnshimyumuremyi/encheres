@@ -13,7 +13,6 @@ routerCommentaires.get("/:id_commentaire", CommentaireController.getCommentaireB
 routerCommentaires.post("/", CommentaireController.createCommentaire);
 
 // Update information of a commentaire
-routerCommentaires.put("/:id_commentaire", CommentaireController.updateCommentaire);
 
 // Delete a commentaire
 routerCommentaires.delete("/:id_commentaire", CommentaireController.deleteCommentaire);
