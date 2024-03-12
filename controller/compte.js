@@ -21,7 +21,7 @@ export const createCompte = async (req, res) => {
 
     try {
         const { solde, utilisateurId } = req.body;
-        const nouveauCompte = await Compte.create({ solde, id_utilisateur: utilisateurId });
+        const nouveauCompte = await Compte.create({ solde, utilisateurId });
         res.status(201).json({ data: nouveauCompte, message: "Compte créé avec succès" });
     } catch (error) {
         res.status(500).json({ message: "Une erreur s'est produite lors de la création du compte", error: error.message });

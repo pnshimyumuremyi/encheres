@@ -20,8 +20,8 @@ export const createEnchere = async (req, res) => {
     }
 
     try {
-        const { titre, description, prix_depart, date_debut, date_fin, id_utilisateur } = req.body;
-        const nouvelleEnchere = await Enchere.create({ titre, description, prix_depart, date_debut, date_fin, id_utilisateur });
+        const { titre, description, prix_depart, date_debut, date_fin, utilisateurId } = req.body;
+        const nouvelleEnchere = await Enchere.create({ titre, description, prix_depart, date_debut, date_fin, utilisateurId });
         res.status(201).json({ data: nouvelleEnchere, message: "Enchère créée avec succès" });
     } catch (error) {
         res.status(500).json({ message: "Une erreur s'est produite lors de la création de l'enchère", error: error.message });
@@ -54,7 +54,7 @@ export const updateEnchere = async (req, res) => {
 
     try {
         const { id } = req.params;
-        const { titre, description, prix_depart, date_debut, date_fin, id_utilisateur } = req.body;
+        const { titre, description, prix_depart, date_debut, date_fin, utilisateurId } = req.body;
         const enchere = await Enchere.findByPk(id);
         if (!enchere) {
             return res.status(404).json({ message: "Enchère non trouvée" });
@@ -64,7 +64,7 @@ export const updateEnchere = async (req, res) => {
         enchere.prix_depart = prix_depart;
         enchere.date_debut = date_debut;
         enchere.date_fin = date_fin;
-        enchere.id_utilisateur = id_utilisateur;
+        enchere.utilisateurId = utilisateurId;
         await enchere.save();
         res.status(200).json({ data: enchere, message: "Enchère mise à jour avec succès" });
     } catch (error) {

@@ -6,17 +6,17 @@ const compte = Router();
 
 const validateCompte = [
   body('solde').isNumeric().withMessage('Le solde doit être un nombre'),
-  body('utilisateurId').isMongoId().withMessage('L\'ID de l\'utilisateur doit être un ObjectId valide'),
+  body('utilisateurId').isNumeric().withMessage('L\'ID de l\'utilisateur doit être un ObjectId valide'),
 ];
 
 compte
   .get("/", getAllComptes)
-  .get("/:id", param('id').isMongoId().withMessage('L\'ID doit être un ObjectId valide'), getCompteById)
+  .get("/:id", param('id').isNumeric().withMessage('L\'ID doit être un ObjectId valide'), getCompteById)
   .post("/", validateCompte, createCompte)
   .put("/:id", [
-    param('id').isMongoId().withMessage('L\'ID doit être un ObjectId valide'),
+    param('id').isNumeric().withMessage('L\'ID doit être un ObjectId valide'),
     ...validateCompte,
   ], updateCompte)
-  .delete("/:id", param('id').isMongoId().withMessage('L\'ID doit être un ObjectId valide'), deleteCompte);
+  .delete("/:id", param('id').isNumeric().withMessage('L\'ID doit être un ObjectId valide'), deleteCompte);
 
 export default compte;

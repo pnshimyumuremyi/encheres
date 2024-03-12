@@ -13,12 +13,12 @@ const validateCommentaire = [
 
 commentaire
   .get("/", getAllCommentaires)
-  .get("/:id", param('id').isMongoId().withMessage('L\'ID doit être un ObjectId valide'), getCommentaireById)
+  .get("/:id", param('id').isNumeric().withMessage('L\'ID doit être un ObjectId valide'), getCommentaireById)
   .post("/", validateCommentaire, createCommentaire)
   .put("/:id", [
-    param('id').isMongoId().withMessage('L\'ID doit être un ObjectId valide'),
+    param('id').isNumeric().withMessage('L\'ID doit être un ObjectId valide'),
     ...validateCommentaire,
   ], updateCommentaire)
-  .delete("/:id", param('id').isMongoId().withMessage('L\'ID doit être un ObjectId valide'), deleteCommentaire);
+  .delete("/:id", param('id').isNumeric().withMessage('L\'ID doit être un ObjectId valide'), deleteCommentaire);
 
 export default commentaire;

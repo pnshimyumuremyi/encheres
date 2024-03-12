@@ -10,17 +10,17 @@ const validateEnchere = [
   body('prix_depart').isNumeric().withMessage('Le prix de départ doit être un nombre'),
   body('date_debut').isISO8601().toDate().withMessage('La date de début doit être une date au format ISO8601'),
   body('date_fin').isISO8601().toDate().withMessage('La date de fin doit être une date au format ISO8601'),
-  body('id_utilisateur').notEmpty().withMessage('L\'ID de l\'utilisateur est obligatoire'),
+  body('utilisateurId').notEmpty().withMessage('L\'ID de l\'utilisateur est obligatoire'),
 ];
 
 enchere
   .get("/", getAllEncheres)
-  .get("/:id", param('id').isMongoId().withMessage('L\'ID doit être un ObjectId valide'), getEnchereById)
+  .get("/:id", param('id').isNumeric().withMessage('L\'ID doit être un ObjectId valide'), getEnchereById)
   .post("/", validateEnchere, createEnchere)
   .put("/:id", [
-    param('id').isMongoId().withMessage('L\'ID doit être un ObjectId valide'),
+    param('id').isNumeric().withMessage('L\'ID doit être un ObjectId valide'),
     ...validateEnchere,
   ], updateEnchere)
-  .delete("/:id", param('id').isMongoId().withMessage('L\'ID doit être un ObjectId valide'), deleteEnchere);
+  .delete("/:id", param('id').isNumeric().withMessage('L\'ID doit être un ObjectId valide'), deleteEnchere);
 
 export default enchere;
