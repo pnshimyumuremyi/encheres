@@ -3,12 +3,15 @@ import cors from 'cors';
 import compression from 'compression';
 import helmet from 'helmet';
 import dotenv from 'dotenv';
-import routerRoles from './routers/routerRole.js';
-import routerUtilisateur from './routers/routerUtilisateur.js';
-import routerCompte from './routers/routerCompte.js';
-import routerCommentaires from './routers/routerCommentaire.js';
-import routerOffres from './routers/routerOffre.js';
-import routerEncheres from './routers/routerEnchere.js';
+import role from "./router/role.js";
+import utilisateur from "./router/utilisateur.js";
+import compte from "./router/compte.js";
+import commentaire from "./router/commentaire.js";
+import offre from "./router/offre.js";
+import enchere from "./router/enchere.js";
+import { authenticateToken } from "./model/auth.js";
+
+
 
 
 
@@ -32,12 +35,12 @@ app.get('/', (req, res) => {
 });
 
 
-app.use("/api/role",routerRoles);
-app.use("/api/utilisateur",routerUtilisateur);
-app.use("/api/compte",routerCompte);
-app.use("/api/commentaire",routerCommentaires);
-app.use("/api/offre",routerOffres);
-app.use("/api/enchere",routerEncheres);
+app.use("/api/role",authenticateToken, role);
+app.use("/api/utilisateur",utilisateur);
+app.use("/api/compte",authenticateToken, compte);
+app.use("/api/commentaire",authenticateToken, commentaire);
+app.use("/api/offre",authenticateToken,  offre);
+app.use("/api/enchere", authenticateToken, enchere);
 
 app.listen(PORT, () => {
   console.log(`Le serveur est en écoute sur le port ${PORT}`);
