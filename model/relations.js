@@ -10,8 +10,11 @@ import Commentaire from "./commentaire.js";
 
 // Un utilisateur peut avoir un rôle
 
-Utilisateur.belongsTo(Role, { foreignKey: 'roleId', as: 'Role' });
-Role.hasMany(Utilisateur);
+//Utilisateur.belongsTo(Role, { foreignKey: 'roleId', as: 'Role' });
+//Role.hasMany(Utilisateur);
+
+Utilisateur.belongsToMany(Role,{through:'UserRole'})
+Role.belongsToMany(Utilisateur,{through:'UserRole'})
 
 // Un utilisateur peut avoir plusieurs comptes
 Utilisateur.hasMany(Compte);

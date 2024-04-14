@@ -11,6 +11,19 @@ export const getAllCommentaires = async (req, res) => {
   }
 };
 
+
+export const getCommentairesByEnchereId=async(req,res)=>{
+  try{
+    const commentaires = await Commentaire.findAll({
+      where: { enchereId: req.params.id },
+    });
+    res.status(200).json({ data: commentaires, message: 'Liste des offres récupérée avec succès' });
+  }catch (error) {
+    res.status(404).json({ message: 'Une erreur est survenue lors de la récupération des offres', error: error.message });
+  }
+
+};
+
 // Récupérer un commentaire par son ID
 export const getCommentaireById = async (req, res) => {
   const { id } = req.params;

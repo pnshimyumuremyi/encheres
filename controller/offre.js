@@ -85,3 +85,17 @@ export const deleteOffre = async (req, res) => {
     res.status(400).json({ message: 'Une erreur est survenue lors de la suppression de l\'offre', error: error.message });
   }
 };
+//get offres for enchere
+
+export const getOffresByEnchereId=async(req,res)=>{
+  try{
+    const offres = await Offre.findAll({
+      where: { enchereId: req.params.id },
+    });
+    res.status(200).json({ data: offres, message: 'Liste des offres récupérée avec succès' });
+  }catch (error) {
+    res.status(404).json({ message: 'Une erreur est survenue lors de la récupération des offres', error: error.message });
+  }
+
+};
+

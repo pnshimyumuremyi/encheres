@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { body, param, validationResult } from 'express-validator';
-import { getAllCommentaires, getCommentaireById, createCommentaire, updateCommentaire, deleteCommentaire } from "../controller/commentaire.js";
+import { getAllCommentaires, getCommentaireById, createCommentaire, updateCommentaire, deleteCommentaire,getCommentairesByEnchereId } from "../controller/commentaire.js";
+import { authenticateToken } from "../model/auth.js";
 
 const commentaire = Router();
 
@@ -12,13 +13,14 @@ const validateCommentaire = [
 ];
 
 commentaire
-  .get("/", getAllCommentaires)
-  .get("/:id", param('id').isNumeric().withMessage('L\'ID doit être un ObjectId valide'), getCommentaireById)
-  .post("/", validateCommentaire, createCommentaire)
+  .get("/",authenticateToken, getAllCommentaires)
+  .get("/enchre/:id",authenticateToken, getCommentairesByEnchereId)
+  .get("/:id", param('id').isNumeric().withMessage('L\'ID doit être un ObjectId valide'),authenticateToken, getCommentaireById)
+  .post("/:id", validateCommentaire, authenticateToken,createCommentaire)
   .put("/:id", [
     param('id').isNumeric().withMessage('L\'ID doit être un ObjectId valide'),
     ...validateCommentaire,
-  ], updateCommentaire)
-  .delete("/:id", param('id').isNumeric().withMessage('L\'ID doit être un ObjectId valide'), deleteCommentaire);
+  ],authenticateToken, updateCommentaire)
+  .delete("/:id", param('id').isNumeric().withMessage('L\'ID doit être un ObjectId valide'), authenticateToken,deleteCommentaire);
 
 export default commentaire;
