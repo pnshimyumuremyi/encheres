@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { body, param } from 'express-validator';
 import { getAllEncheres, getEnchereById, createEnchere, updateEnchere, deleteEnchere } from "../controller/enchere.js";
+import { authenticateToken } from "../model/auth.js";
 
 const enchere = Router();
 
@@ -14,13 +15,13 @@ const validateEnchere = [
 ];
 
 enchere
-  .get("/", getAllEncheres)
-  .get("/:id", param('id').isNumeric().withMessage('L\'ID doit être un ObjectId valide'), getEnchereById)
-  .post("/", validateEnchere, createEnchere)
+  .get("/",authenticateToken,getAllEncheres)
+  .get("/:id", param('id').isNumeric().withMessage('L\'ID doit être un ObjectId valide'),authenticateToken, getEnchereById)
+  .post("/", validateEnchere, authenticateToken,createEnchere)
   .put("/:id", [
     param('id').isNumeric().withMessage('L\'ID doit être un ObjectId valide'),
     ...validateEnchere,
-  ], updateEnchere)
-  .delete("/:id", param('id').isNumeric().withMessage('L\'ID doit être un ObjectId valide'), deleteEnchere);
+  ], authenticateToken,updateEnchere)
+  .delete("/:id", param('id').isNumeric().withMessage('L\'ID doit être un ObjectId valide'), authenticateToken,deleteEnchere);
 
 export default enchere;

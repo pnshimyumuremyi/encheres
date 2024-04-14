@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { body, param, validationResult } from 'express-validator';
 import { getAllComptes, getCompteById, createCompte, updateCompte, deleteCompte } from "../controller/compte.js";
+import { authenticateToken } from "../model/auth.js";
 
 const compte = Router();
 
@@ -10,13 +11,13 @@ const validateCompte = [
 ];
 
 compte
-  .get("/", getAllComptes)
-  .get("/:id", param('id').isNumeric().withMessage('L\'ID doit être un ObjectId valide'), getCompteById)
-  .post("/", validateCompte, createCompte)
+  .get("/",authenticateToken, getAllComptes)
+  .get("/:id", param('id').isNumeric().withMessage('L\'ID doit être un ObjectId valide'), authenticateToken,getCompteById)
+  .post("/", validateCompte, authenticateToken,createCompte)
   .put("/:id", [
     param('id').isNumeric().withMessage('L\'ID doit être un ObjectId valide'),
     ...validateCompte,
-  ], updateCompte)
-  .delete("/:id", param('id').isNumeric().withMessage('L\'ID doit être un ObjectId valide'), deleteCompte);
+  ],authenticateToken, updateCompte)
+  .delete("/:id", param('id').isNumeric().withMessage('L\'ID doit être un ObjectId valide'),authenticateToken, deleteCompte);
 
 export default compte;

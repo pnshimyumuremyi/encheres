@@ -2,6 +2,7 @@ import { Router } from "express";
 import { body, param, validationResult } from 'express-validator';
 import { getAllUtilisateurs, getUtilisateurById, createUtilisateur, updateUtilisateur, deleteUtilisateur, loginUtilisateur } from "../controller/utilisateur.js";
 import { authenticateToken } from "../model/auth.js";
+import { isAdmin, verifierToken } from "../controller/authorisations.js";
 
 const utilisateur = Router();
 
@@ -14,15 +15,11 @@ const validateUtilisateur = [
 ];
 
 utilisateur
-  .get("/", authenticateToken, getAllUtilisateurs)
-  .get("/:id", param('id').isNumeric().withMessage('L\'ID doit être un ObjectId valide'), authenticateToken,  getUtilisateurById)
-  .post("/", validateUtilisateur, authenticateToken, createUtilisateur)
+  .get("/",authenticateToken, getAllUtilisateurs)
+  .get("/:id", authenticateToken,getUtilisateurById)
+  .post("/",authenticateToken, createUtilisateur)
   .post("/login", validateUtilisateur,  loginUtilisateur)
-  .put("/:id", [
-    param('id').isNumeric().withMessage('L\'ID doit être un ObjectId valide'),
-    ...validateUtilisateur,
-  ],
-  authenticateToken, updateUtilisateur)
-  .delete("/:id", param('id').isNumeric().withMessage('L\'ID doit être un ObjectId valide'), authenticateToken, deleteUtilisateur);
+  .put("/:id", authenticateToken,updateUtilisateur)
+  .delete("/:id", authenticateToken,deleteUtilisateur);
 
 export default utilisateur;
