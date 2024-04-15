@@ -14,7 +14,11 @@ const validateCommentaire = [
 
 commentaire
   .get("/",authenticateToken, getAllCommentaires)
+<<<<<<< HEAD
   .get("/enchere/:id",authenticateToken, getCommentairesByEnchereId)
+=======
+  .get("/enchre/:id",authenticateToken, getCommentairesByEnchereId)
+>>>>>>> 58efb3a3d88da36c6b16fce594e1f3d50a1dfacc
   .get("/:id", param('id').isNumeric().withMessage('L\'ID doit être un ObjectId valide'),authenticateToken, getCommentaireById)
   .post("/:id", validateCommentaire, authenticateToken,createCommentaire)
   .put("/:id", [
