@@ -86,7 +86,7 @@ export const loginUtilisateur = async (req, res) => {
 
         if (utilisateur) {
             // Check if the provided password matches the stored password hash
-            if (utilisateur.mot_de_passe === req.body.mot_de_passe) {
+            if (utilisateur.password === req.body.password) {
                 
                 res.status(200).json({ token: generateToken(utilisateur), message: 'Connexion réussie' });
             } else {

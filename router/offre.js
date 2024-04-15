@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { body, param } from 'express-validator';
-import { getAllOffres, getOffreById, createOffre, updateOffre, deleteOffre } from "../controller/offre.js";
+import { getAllOffres, getOffreById, createOffre, updateOffre, deleteOffre, getOffresByEnchereId } from "../controller/offre.js";
+import { authenticateToken } from "../model/auth.js";
 
 const offre = Router();
 
@@ -12,13 +13,14 @@ const validateOffre = [
 ];
 
 offre
-  .get("/", getAllOffres)
-  .get("/:id", param('id').isNumeric().withMessage('L\'ID doit être un ObjectId valide'), getOffreById)
-  .post("/", validateOffre, createOffre)
+  .get("/",authenticateToken, getAllOffres)
+  .get("/enchere/:id",authenticateToken, getOffresByEnchereId)
+  .get("/:id", param('id').isNumeric().withMessage('L\'ID doit être un ObjectId valide'),authenticateToken, getOffreById)
+  .post("/:id", validateOffre, authenticateToken,createOffre)
   .put("/:id", [
     param('id').isNumeric().withMessage('L\'ID doit être un ObjectId valide'),
     ...validateOffre,
-  ], updateOffre)
-  .delete("/:id", param('id').isNumeric().withMessage('L\'ID doit être un ObjectId valide'), deleteOffre);
+  ], authenticateToken,updateOffre)
+  .delete("/:id", param('id').isNumeric().withMessage('L\'ID doit être un ObjectId valide'), authenticateToken,deleteOffre);
 
 export default offre;

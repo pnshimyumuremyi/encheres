@@ -16,7 +16,7 @@ const authenticateToken = (request, response, next) => {
   if (token == null) {
     return response.sendStatus(401);
   }
-
+ // saveToken(token);
   jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
     if (err) {
       console.log('log: ', user);
@@ -27,6 +27,21 @@ const authenticateToken = (request, response, next) => {
     next();
   });
 };
+
+const logout=()=>{
+  localStorage.removeItem('token')
+}
+
+const saveToken=(token)=>{
+  localStorage.setItem('token',token)
+}
+const isLogged=()=>{
+  const token=localStorage.getItem('token')
+  return !!token
+}
+const getToken=()=>{
+  return localStorage.getItem('token')
+}
 
 const authorizeRole = (role) => {
   return (request, response, next) => {

@@ -3,6 +3,7 @@
 import { Router } from 'express';
 import { body, param } from 'express-validator';
 import { roleList, getRoleById, createRole, updateRole, deleteRole } from '../controller/role.js';
+import { authenticateToken } from "../model/auth.js";
 
 const role = Router();
 
@@ -18,10 +19,10 @@ const updateRoleValidation = [
 ];
 
 role
-  .get('/', roleList)
-  .get('/:id', getRoleById)
-  .post('/', createRoleValidation, createRole)
-  .put('/:id', updateRoleValidation, updateRole)
-  .delete('/:id', deleteRole);
+  .get('/', authenticateToken,roleList)
+  .get('/:id', authenticateToken,getRoleById)
+  .post('/', createRoleValidation,authenticateToken, createRole)
+  .put('/:id', updateRoleValidation, authenticateToken,updateRole)
+  .delete('/:id', authenticateToken,deleteRole);
 
 export default role;
